@@ -1,3 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">CyxbsMobile_Freshman</string>
+    <dimen name="dp_5" tools:ignore="ResourceName">50</dimen>
+    <dimen name="dp_0" tools:ignore="ResourceName">0</dimen>
 </resources>

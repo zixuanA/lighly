@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <declare-styleable name="ShadowLayout" tools:ignore="ResourceName">
+        <!--阴影的圆角大小-->
+        <attr name="hl_cornerRadius" format="dimension" tools:ignore="ResourceName" />
+        <!--阴影的扩散范围(也可以理解为扩散程度)-->
+        <attr name="hl_shadowLimit" format="dimension" tools:ignore="ResourceName" />
+        <attr name="hl_shadowColor" format="color" tools:ignore="ResourceName" />
+        <attr name="hl_shadowBackColor" format="color" tools:ignore="ResourceName" />
+        <!--x轴的偏移量-->
+        <attr name="hl_dx" format="dimension" tools:ignore="ResourceName" />
+        <!--y轴的偏移量-->
+        <attr name="hl_dy" format="dimension" tools:ignore="ResourceName" />
+        <!--左边是否显示阴影-->
+        <attr name="hl_leftShow" format="boolean" tools:ignore="ResourceName" />
+        <!--右边是否显示阴影-->
+        <attr name="hl_rightShow" format="boolean" tools:ignore="ResourceName" />
+        <!--上边是否显示阴影-->
+        <attr name="hl_topShow" format="boolean" tools:ignore="ResourceName" />
+        <!--下面是否显示阴影-->
+        <attr name="hl_bottomShow" format="boolean" tools:ignore="ResourceName" />
+
+    </declare-styleable>
+</resources>

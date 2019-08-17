@@ -131,18 +131,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        MobclickAgent.onResume(this)
+//        MobclickAgent.onResume(this)
         if (!isFragmentActivity) {
-            MobclickAgent.onPageStart(javaClass.name)
+//            MobclickAgent.onPageStart(javaClass.name)
             LogUtils.d("UMStat", javaClass.name + " started")
         }
     }
 
     override fun onPause() {
         super.onPause()
-        MobclickAgent.onPause(this)
+//        MobclickAgent.onPause(this)
         if (!isFragmentActivity) {
-            MobclickAgent.onPageEnd(javaClass.name)
+//            MobclickAgent.onPageEnd(javaClass.name)
             LogUtils.d("UMStat", javaClass.name + " paused")
         }
     }
