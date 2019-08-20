@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.common.viewmodel.event.ProgressDialogEvent
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
@@ -65,4 +66,5 @@ abstract class BaseViewModelActivity<T : BaseViewModel> : BaseActivity() {
             progressDialog?.dismiss()
         }
     }
+
 }

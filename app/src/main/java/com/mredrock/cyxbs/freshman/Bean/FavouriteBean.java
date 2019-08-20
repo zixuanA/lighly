@@ -50,6 +50,21 @@ public class FavouriteBean {
         private String url;
         private String title;
         private String detail;
+        private List<MessageBean.ResultBean> songList;
+
+        public List<MessageBean.ResultBean> getSongList() {
+            return songList;
+        }
+
+        public void setSongList(List<MessageBean.ResultBean> songList) {
+            this.songList = songList;
+        }
+        public void addSong(MessageBean.ResultBean song){
+            this.songList.add(song);
+        }
+        public void removeSong(int index){
+            this.songList.remove(index);
+        }
     }
     public static class AlbumBean{
         private String albumName;
