@@ -22,20 +22,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <FrameLayout
-                android:id="@+id/fl_back_song_list"
-                android:background="@drawable/alpha_circle"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="25dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <de.hdodenhof.circleimageview.CircleImageView
-
-                    android:src="@drawable/ic_arrow_left"
-                    android:layout_margin="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
+         <include layout="@layout/item_back"
+             android:id="@+id/fl_back_song_list"/>
 
             <FrameLayout
                 android:id="@+id/fl_search_song_list"

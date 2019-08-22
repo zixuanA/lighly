@@ -21,9 +21,11 @@ class SmallMusicProgressView @JvmOverloads constructor(
 
     init {
         lightPaint.color = Color.WHITE
+        lightPaint.isAntiAlias = true
         lightPaint.strokeWidth = dp2px(context, 3f)
         framePaint.color = Color.argb(40,255,255,255)
         framePaint.strokeWidth = dp2px(context, 3f)
+        framePaint.isAntiAlias = true
         framePaint.style = Paint.Style.STROKE
         lightPaint.style = Paint.Style.STROKE
         lightPaint.strokeCap = Paint.Cap.ROUND

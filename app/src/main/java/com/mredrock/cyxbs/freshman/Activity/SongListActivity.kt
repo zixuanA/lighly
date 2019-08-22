@@ -1,10 +1,17 @@
 package com.mredrock.cyxbs.freshman.Activity
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.transition.*
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,26 +19,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.LogUtils
+import com.mredrock.cyxbs.freshman.*
 import com.mredrock.cyxbs.freshman.Adapter.SongRecyclerViewAdapter
 import com.mredrock.cyxbs.freshman.Event.*
-import com.mredrock.cyxbs.freshman.R
+import com.mredrock.cyxbs.freshman.View.MusicProcessView
 import com.mredrock.cyxbs.freshman.ViewModel.SongListViewModel
-import com.mredrock.cyxbs.freshman.getMusicState
-import com.mredrock.cyxbs.freshman.getPic
-import com.mredrock.cyxbs.freshman.getUrl
+import kotlinx.android.synthetic.main.activity_song.*
 import kotlinx.android.synthetic.main.activity_songlist.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.startActivity
 
 class SongListActivity : BaseViewModelActivity<SongListViewModel>() ,SbuscribeMusicEventAble{
+    private var server:MusicService.MyBinder?=null
     @Subscribe
     override fun onMusicPauseEvent(event: MusicPauseEvent) {
-
+        TransitionManager.beginDelayedTransition(fl_tab_state)
+        Glide.with(this).load(R.drawable.ic_music_play_small).into(img_music_playing_state)
     }
     @Subscribe
     override fun onMusicReplayEvent(event: MusicReplayEvent) {
+        TransitionManager.beginDelayedTransition(fl_tab_state)
+        Glide.with(this).load(R.drawable.ic_pause_small).into(img_music_playing_state)
     }
     @Subscribe
     override fun onMusicChangedEvent(event: MusicChangeEvent) {
@@ -39,11 +50,13 @@ class SongListActivity : BaseViewModelActivity<SongListViewModel>() ,SbuscribeMu
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onMusicProgressAddingEvent(event: MusicProgressAddingEvent) {
-        smp_music_playing.setDegree(event.getProgress())
+            smp_music_playing.setDegree(event.getProgress())
     }
     @Subscribe
     override fun onMusicStartEvent(event: MusicStartEvent) {
+
     }
+
 
 
     override val viewModelClass: Class<SongListViewModel> = SongListViewModel::class.java
@@ -53,6 +66,7 @@ class SongListActivity : BaseViewModelActivity<SongListViewModel>() ,SbuscribeMu
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_songlist)
 
+        initService()
         initAnimation()
         setPlayingTab()
         fl_back_song_list.setOnClickListener {
@@ -70,13 +84,21 @@ class SongListActivity : BaseViewModelActivity<SongListViewModel>() ,SbuscribeMu
     }
     private fun addTabClickListener(){
         cl_song_playing.setOnClickListener {
-            startActivity<SongActivity>()
+
+            startActivity(Intent(this,SongActivity::class.java).apply {
+                putExtra("color",intent.extras?.getInt("color"))
+                putExtra("title",intent.extras?.getString("title"))
+                }
+                    ,ActivityOptionsCompat.makeSceneTransitionAnimation(this, Pair(img_music_playing,"shared_pic")).toBundle())
+//            startActivity<SongActivity>("color" to intent.extras?.getInt("color"),"title" to intent.extras?.getString("title"))
         }
         fl_tab_state.setOnClickListener {
+
             if(getMusicState())
                 EventBus.getDefault().post(getMusicPauseEvent())
             else
-                EventBus.getDefault().post(getMusicStartEvent())
+                EventBus.getDefault().post(MusicReplayEvent())
+
         }
     }
     private fun setPlayingTab(){
@@ -102,7 +124,7 @@ class SongListActivity : BaseViewModelActivity<SongListViewModel>() ,SbuscribeMu
                 rv_song_list.adapter = SongRecyclerViewAdapter(it)
                 (rv_song_list.adapter as SongRecyclerViewAdapter).setOnSongClickListener(object :SongRecyclerViewAdapter.OnSongClickListener{
                     override fun onclick(position: Int) {
-                        EventBus.getDefault().post(MusicChangeEvent(it.result[position]))
+                        EventBus.getDefault().post(MusicChangeEvent(it,position))
                     }
 
                 })
@@ -169,5 +191,18 @@ class SongListActivity : BaseViewModelActivity<SongListViewModel>() ,SbuscribeMu
             }
         }
         return false
+    }
+    fun initService(){
+        val intent = Intent(this, MusicService::class.java)
+        bindService(intent,object : ServiceConnection {
+            override fun onServiceDisconnected(name: ComponentName?) {
+                server = null
+            }
+
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                server = service as MusicService.MyBinder
+            }
+
+        }, Context.BIND_AUTO_CREATE)
     }
 }
