@@ -6,12 +6,12 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.afollestad.materialdialogs.MaterialDialog
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mredrock.cyxbs.common.R
@@ -19,8 +19,6 @@ import com.mredrock.cyxbs.common.event.AskLoginEvent
 import com.mredrock.cyxbs.common.event.LoginEvent
 import com.mredrock.cyxbs.common.event.LoginStateChangeEvent
 import com.mredrock.cyxbs.common.utils.LogUtils
-import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.common_toolbar.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -68,9 +66,8 @@ abstract class BaseActivity : AppCompatActivity() {
         startActivity<T>(*params)
     }
 
-    val common_toolbar get() = toolbar
-    var menu: Menu? = null
-        private set
+//    val common_toolbar: JToolbar get() = toolbar
+    private var menu: Menu? = null
 
     protected fun Toolbar.init(title: String,
                                @DrawableRes icon: Int = R.drawable.common_ic_back,

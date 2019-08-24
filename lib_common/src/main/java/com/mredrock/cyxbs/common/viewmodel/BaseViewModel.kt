@@ -1,8 +1,8 @@
 package com.mredrock.cyxbs.common.viewmodel
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.annotation.CallSuper
 import com.mredrock.cyxbs.common.viewmodel.event.ProgressDialogEvent
 import com.mredrock.cyxbs.common.viewmodel.event.SingleLiveEvent
 import io.reactivex.disposables.Disposable
@@ -17,7 +17,7 @@ open class BaseViewModel : ViewModel() {
 
     private val disposables: MutableList<Disposable> = mutableListOf()
 
-    fun Disposable.lifeCycle(): Disposable {
+    private fun Disposable.lifeCycle(): Disposable {
         disposables.add(this)
         return this@lifeCycle
     }

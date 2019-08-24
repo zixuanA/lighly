@@ -4,5 +4,5 @@ import com.mredrock.cyxbs.freshman.Bean.MessageBean
 
 interface ModelCallback {
     fun onFailure()
-    fun onSuccess(bean:MessageBean?)
+    fun onSuccess(bean: MessageBean?)
 }

@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.freshman.ViewModel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.freshman.Bean.MessageBean
@@ -10,7 +9,7 @@ import com.mredrock.cyxbs.freshman.R
 
 class SongListViewModel : BaseViewModel() {
     val data = MutableLiveData<MessageBean>()
-    private val model :Model = Model(object :ModelCallback{
+    private val model: Model = Model(object : ModelCallback {
         override fun onFailure() {
             toastEvent.value = R.string.network_failed
         }
@@ -20,7 +19,8 @@ class SongListViewModel : BaseViewModel() {
         }
 
     })
-    fun getBean(name:String){
+
+    fun getBean(name: String) {
         model.getBean(name)
     }
 }

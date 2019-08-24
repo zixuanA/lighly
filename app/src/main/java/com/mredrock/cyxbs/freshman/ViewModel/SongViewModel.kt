@@ -2,5 +2,4 @@ package com.mredrock.cyxbs.freshman.ViewModel
 
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 
-class SongViewModel: BaseViewModel() {
-}
+class SongViewModel : BaseViewModel()

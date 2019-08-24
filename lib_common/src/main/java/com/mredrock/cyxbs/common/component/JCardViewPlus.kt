@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import com.mredrock.cyxbs.common.R
+import kotlin.math.abs
+import kotlin.math.min
 
 /**
  * Created By jay68 on 2018/8/27.
@@ -49,7 +51,7 @@ open class JCardViewPlus(context: Context, attrs: AttributeSet?, defStyleAttr: I
                 setShadowLayer(shadowRadius, 0f, 0f, value)
             }
         }
-    var shadowRadius: Float = dip(10)
+    private var shadowRadius: Float = dip(10)
         set(value) {
             field = value
             backgroundBuffer = null
@@ -154,7 +156,7 @@ open class JCardViewPlus(context: Context, attrs: AttributeSet?, defStyleAttr: I
             MeasureSpec.EXACTLY -> measureSpec
 
             MeasureSpec.AT_MOST -> {
-                MeasureSpec.makeMeasureSpec(Math.min(size, childSize + padding), MeasureSpec.EXACTLY)
+                MeasureSpec.makeMeasureSpec(min(size, childSize + padding), MeasureSpec.EXACTLY)
             }
 
             MeasureSpec.UNSPECIFIED -> {
@@ -280,7 +282,7 @@ open class JCardViewPlus(context: Context, attrs: AttributeSet?, defStyleAttr: I
 
     private fun calcCorner(cornerRadius: Int, x: Float, y: Float, xSign: Int, ySign: Int) {
         val circle = Path()
-        circle.addCircle(x, y, Math.abs(cornerRadius.toFloat()), Path.Direction.CW)
+        circle.addCircle(x, y, abs(cornerRadius.toFloat()), Path.Direction.CW)
         if (cornerRadius != 0) {
             cardBackgroundShape -= circle
             if (cornerRadius > 0) {
@@ -304,7 +306,7 @@ open class JCardViewPlus(context: Context, attrs: AttributeSet?, defStyleAttr: I
         backgroundBuffer = null
     }
 
-    fun setCardBackgroundColor(@ColorInt color: Int) {
+    private fun setCardBackgroundColor(@ColorInt color: Int) {
         backgroundBuffer = null
         paint.color = color
     }
@@ -338,7 +340,7 @@ open class JCardViewPlus(context: Context, attrs: AttributeSet?, defStyleAttr: I
     /**
      * 设置阴影的显示，true为显示，否则不显示
      */
-    fun setShadow(left: Boolean, top: Boolean, right: Boolean, bottom: Boolean) {
+    private fun setShadow(left: Boolean, top: Boolean, right: Boolean, bottom: Boolean) {
         val flags = (bottom.toInt() shl BOTTOM_SHADOW_SHIFT) or
                 (right.toInt() shl RIGHT_SHADOW_SHIFT) or
                 (top.toInt() shl TOP_SHADOW_SHIFT) or

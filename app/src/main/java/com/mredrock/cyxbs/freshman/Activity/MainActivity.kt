@@ -5,57 +5,98 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.ChangeBounds
-import android.transition.TransitionManager
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
-import com.mredrock.cyxbs.freshman.Adapter.MainRecyclerViewAdapter
-import com.mredrock.cyxbs.freshman.Bean.FavouriteBean
-import com.mredrock.cyxbs.freshman.R
-import com.mredrock.cyxbs.freshman.Util.PixelUtil
-import com.mredrock.cyxbs.freshman.Util.dp2px
-import com.mredrock.cyxbs.freshman.ViewModel.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.recycler_item_head.view.*
-import android.opengl.ETC1.getWidth
-import android.opengl.ETC1.getHeight
 import android.os.IBinder
-import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
-import cn.leancloud.AVObject
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.LogUtils
+import com.mredrock.cyxbs.freshman.Adapter.MainRecyclerViewAdapter
 import com.mredrock.cyxbs.freshman.MusicService
+import com.mredrock.cyxbs.freshman.R
+import com.mredrock.cyxbs.freshman.Util.dp2px
+import com.mredrock.cyxbs.freshman.Util.getAlbumColor
 import com.mredrock.cyxbs.freshman.Util.getAlbumIconRes
-import io.reactivex.disposables.Disposable
-import org.jetbrains.anko.startActivity
+import com.mredrock.cyxbs.freshman.ViewModel.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseViewModelActivity<MainViewModel>() {
     override val viewModelClass: Class<MainViewModel> = MainViewModel::class.java
     override val isFragmentActivity: Boolean = false
-    private var server:MusicService.MyBinder?=null
+    private val conn = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            server = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            server = service as MusicService.MyBinder
+        }
+
+    }
+    private var server: MusicService.MyBinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+//        val obj = AVObject("AlbumList")
+//        obj.put("name","")
+//
+//        obj.saveInBackground().subscribe()
+
         viewModel.data.observe(this, Observer {
             (res_main.adapter as MainRecyclerViewAdapter).setBean(it)
-            LogUtils.d("MyTag","observe")
         })
         initRecycler()
         initService()
     }
-    fun initRecycler(){
-        res_main.adapter = MainRecyclerViewAdapter(this, viewModel.getBean(),object : MainRecyclerViewAdapter.OnMainRecyclerClick {
+
+    override fun onStart() {
+        super.onStart()
+        LogUtils.d("eMyTag", "start")
+    }
+
+    override fun onStop() {
+        LogUtils.d("eMyTag", "stop")
+        super.onStop()
+    }
+
+    override fun onPause() {
+        LogUtils.d("eMyTag", "pause")
+        super.onPause()
+    }
+
+    override fun onResume() {
+        LogUtils.d("eMyTag", "resume")
+        viewModel.resreshData()
+        super.onResume()
+    }
+
+    override fun onRestart() {
+        LogUtils.d("eMyTag", "restart")
+        super.onRestart()
+    }
+
+    private fun initRecycler() {
+        res_main.itemAnimator = DefaultItemAnimator()
+        res_main.adapter = MainRecyclerViewAdapter(this, viewModel.getBean(), object : MainRecyclerViewAdapter.OnMainRecyclerClick {
             override fun onItemClicked(position: Int) {
+                LogUtils.d("MyTag", "onItemClick$position")
+                val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle()
+                val intent = Intent(this@MainActivity, SongListActivity::class.java)
+                intent.putExtra("color", getAlbumColor(position))
+                intent.putExtra("title", viewModel.getBean().list[position].title)
+                intent.putExtra("resource", getAlbumIconRes(position))
+                intent.putExtra("bean", viewModel.getBean())
+
+                intent.putExtra("position", position)
+                startActivity(intent, bundle)
             }
 
             override fun onAlbumOptionsClicked(position: Int, x: Int, y: Int, color: Int) {
@@ -74,6 +115,7 @@ class MainActivity : BaseViewModelActivity<MainViewModel>() {
                 intent.putExtra("color", color)
                 intent.putExtra("title", viewModel.getBean().albumList[position].albumName)
                 intent.putExtra("resource", getAlbumIconRes(position))
+                intent.putExtra("bean", viewModel.getBean())
                 startActivity(intent, bundle)
 
                 circularReveal.addListener(object : Animator.AnimatorListener {
@@ -82,7 +124,6 @@ class MainActivity : BaseViewModelActivity<MainViewModel>() {
                     }
 
                     override fun onAnimationEnd(animation: Animator?) {
-
                         cl_main.removeView(view)
                     }
 
@@ -100,18 +141,14 @@ class MainActivity : BaseViewModelActivity<MainViewModel>() {
         })
         res_main.layoutManager = LinearLayoutManager(this)
     }
-        fun initService(){
-            val intent = Intent(this,MusicService::class.java)
-            bindService(intent,object :ServiceConnection{
-                override fun onServiceDisconnected(name: ComponentName?) {
-                    server = null
-                }
 
-                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                    server = service as MusicService.MyBinder
-                }
+    private fun initService() {
+        val intent = Intent(this, MusicService::class.java)
+        bindService(intent, conn, Context.BIND_AUTO_CREATE)
+    }
 
-            }, Context.BIND_AUTO_CREATE)
-        }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(conn)
+    }
 }

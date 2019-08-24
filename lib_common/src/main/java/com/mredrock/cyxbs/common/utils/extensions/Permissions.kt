@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.common.utils.extensions
 
 import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.jetbrains.anko.alert

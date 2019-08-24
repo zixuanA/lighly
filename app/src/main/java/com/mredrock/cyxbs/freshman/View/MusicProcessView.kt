@@ -4,7 +4,10 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.INFINITE
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -66,11 +69,11 @@ class MusicProcessView @JvmOverloads constructor(
     }
 
     fun setColor(color: Int?) {
-        if(color!=null){
-        repeat(pointOutPaints.size) {
-            pointOutPaints[it].color = color
-        }
-        outPathPaint.color = color
+        if (color != null) {
+            repeat(pointOutPaints.size) {
+                pointOutPaints[it].color = color
+            }
+            outPathPaint.color = color
         }
     }
 
@@ -134,8 +137,8 @@ class MusicProcessView @JvmOverloads constructor(
             viewRadius = width / 2f
             setMeasuredDimension(MeasureSpec.makeMeasureSpec(width, widthModel), MeasureSpec.makeMeasureSpec(width, heightModel))
         } else {
-            outRadius = height/2 - dp2px(context, 20f)
-            viewRadius = height/2f
+            outRadius = height / 2 - dp2px(context, 20f)
+            viewRadius = height / 2f
             setMeasuredDimension(MeasureSpec.makeMeasureSpec(height, widthModel), MeasureSpec.makeMeasureSpec(height, heightModel))
         }
     }
@@ -194,10 +197,12 @@ class MusicProcessView @JvmOverloads constructor(
         animationSet.end()
 
     }
-    private var function:((pointCanTouch:Boolean)->Unit)?=null
-    fun toucheventCallback(function:(pointCanTouch:Boolean)->Unit){
+
+    private var function: ((pointCanTouch: Boolean) -> Unit)? = null
+    fun toucheventCallback(function: (pointCanTouch: Boolean) -> Unit) {
         this.function = function
     }
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN
 
@@ -235,12 +240,12 @@ class MusicProcessView @JvmOverloads constructor(
                 listener?.onProgressChanged((outPathDegree - 0.1f) / 0.3f)
                 return true
             } else {
-                LogUtils.d("eMyTag","do function")
+                LogUtils.d("eMyTag", "do function")
                 pointCanMove = false
                 function?.invoke(pointCanMove)
             }
         }
-        if(event?.action==MotionEvent.ACTION_UP){
+        if (event?.action == MotionEvent.ACTION_UP) {
             pointCanMove = false
             function?.invoke(pointCanMove)
         }

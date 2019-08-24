@@ -21,22 +21,27 @@ private var title = ""
 private var author = ""
 private var url = ""
 private var position = 0
-private var bean : MessageBean? = null
-fun getPic():String{
+private var bean: MessageBean? = null
+fun getPic(): String {
+    LogUtils.d("eLog", pic)
     return pic
 }
-fun getTitle():String{
+
+fun getTitle(): String {
     return title
 }
-fun getAuthor():String{
+
+fun getAuthor(): String {
     return author
 }
-fun getRepeatMode():Boolean= isRepeatMode
-fun getUrl():String{
+
+fun getRepeatMode(): Boolean = isRepeatMode
+fun getUrl(): String {
     return url
 }
-fun getPosition()= position
-fun getMusicState()= musicPlaying
+
+fun getPosition() = position
+fun getMusicState() = musicPlaying
 class MusicService : Service() {
     private var musicLoading = false
     private val threadPool = Executors.newFixedThreadPool(1)
@@ -45,18 +50,19 @@ class MusicService : Service() {
     private val runnable = Runnable {
         val event = getMusicProgressAddingEvent()
         while (musicPlaying && !musicLoading) {
-            event.setProgress(player.currentPosition.toFloat()/player.duration)
+            event.setProgress(player.currentPosition.toFloat() / player.duration)
             EventBus.getDefault().post(event)
         }
         SystemClock.sleep(500)
     }
-    private fun playMusic(url:String){
+
+    private fun playMusic(url: String) {
 
         musicPlaying = true
         musicLoading = true
         player.stop()
         player.reset()
-        LogUtils.d("eMyTag",url)
+        LogUtils.d("eMyTag", url)
         player.setDataSource(url)
         player.prepareAsync()
         player.setOnPreparedListener {
@@ -69,31 +75,34 @@ class MusicService : Service() {
         }
         player.isLooping = isRepeatMode
     }
+
     @Subscribe
-    fun onNextsongEvent(event:NextSongEvent){
-        if(bean!=null){
+    fun onNextsongEvent(event: NextSongEvent) {
+        if (bean != null) {
             var random = position
-            while (random== position){
-                random = Random.nextInt(0, bean!!.result.size-1)
+            while (random == position) {
+                random = Random.nextInt(0, bean!!.result.size - 1)
             }
-            EventBus.getDefault().post(MusicChangeEvent(bean!!,random))
+            EventBus.getDefault().post(MusicChangeEvent(bean!!, random))
         }
     }
+
     @Subscribe(priority = 1)
-    fun onMusicPauseEvent(event:MusicPauseEvent){
-        musicPlaying  = false
+    fun onMusicPauseEvent(event: MusicPauseEvent) {
+        musicPlaying = false
 
         player.pause()
     }
+
     @Subscribe(priority = 1)
-    fun onMusicReplayEvent(event:MusicReplayEvent){
+    fun onMusicReplayEvent(event: MusicReplayEvent) {
         musicPlaying = true
         threadPool.execute(runnable)
         player.start()
     }
 
     @Subscribe(priority = 100)
-    fun onMusicChangedEvent(event:MusicChangeEvent){
+    fun onMusicChangedEvent(event: MusicChangeEvent) {
         bean = event.music
         position = event.position
         playMusic(event.music.result[event.position].url)
@@ -103,12 +112,14 @@ class MusicService : Service() {
         author = event.music.result[event.position].author
 
     }
+
     @Subscribe(priority = 1)
-    fun onMusicProgressChangedEvent(event:MusicProgressChangedEvent){
+    fun onMusicProgressChangedEvent(event: MusicProgressChangedEvent) {
         player.seekTo((player.duration * event.progress).toInt())
     }
+
     @Subscribe(priority = 1)
-    fun onRepeatModeChangeEvent(event:RepeatModeChanEvent){
+    fun onRepeatModeChangeEvent(event: RepeatModeChangeEvent) {
         isRepeatMode = event.isRepeatMode
         player.isLooping = isRepeatMode
     }
@@ -118,8 +129,8 @@ class MusicService : Service() {
 
         super.onCreate()
         player.setOnCompletionListener {
-            if(!isRepeatMode && bean!=null){
-                EventBus.getDefault().post(MusicChangeEvent(bean!!,Random.nextInt(0, bean!!.result.size)))
+            if (!isRepeatMode && bean != null) {
+                EventBus.getDefault().post(MusicChangeEvent(bean!!, Random.nextInt(0, bean!!.result.size)))
 
             }
         }
@@ -135,12 +146,6 @@ class MusicService : Service() {
         return myBinder
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-
-        return super.onUnbind(intent)
-    }
-    class MyBinder: Binder() {
-
-    }
+    class MyBinder : Binder()
 
 }

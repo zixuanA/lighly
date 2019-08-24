@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.mredrock.cyxbs.common.utils.LogUtils
 import com.mredrock.cyxbs.freshman.Util.dp2px
 
 class SmallMusicProgressView @JvmOverloads constructor(
@@ -23,7 +22,7 @@ class SmallMusicProgressView @JvmOverloads constructor(
         lightPaint.color = Color.WHITE
         lightPaint.isAntiAlias = true
         lightPaint.strokeWidth = dp2px(context, 3f)
-        framePaint.color = Color.argb(40,255,255,255)
+        framePaint.color = Color.argb(40, 255, 255, 255)
         framePaint.strokeWidth = dp2px(context, 3f)
         framePaint.isAntiAlias = true
         framePaint.style = Paint.Style.STROKE
@@ -40,9 +39,9 @@ class SmallMusicProgressView @JvmOverloads constructor(
         viewHeight = height.toFloat()
         viewWidth = width.toFloat()
         radius = if (viewHeight > viewWidth) {
-            viewWidth / 2 - dp2px(context,3)
+            viewWidth / 2 - dp2px(context, 3)
         } else {
-            viewHeight / 2- dp2px(context,3)
+            viewHeight / 2 - dp2px(context, 3)
         }
         setMeasuredDimension(width, height)
     }
@@ -62,7 +61,6 @@ class SmallMusicProgressView @JvmOverloads constructor(
     //0_1
     fun setDegree(degree: Float) {
         this.degree = degree * 360
-        LogUtils.d("MyTag","${this.degree}")
         invalidate()
     }
 }

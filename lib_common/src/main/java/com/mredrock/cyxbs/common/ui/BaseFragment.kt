@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.common.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import com.mredrock.cyxbs.common.event.LoginStateChangeEvent
 import com.mredrock.cyxbs.common.utils.LogUtils

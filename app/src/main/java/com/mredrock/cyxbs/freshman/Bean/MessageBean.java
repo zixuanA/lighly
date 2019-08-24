@@ -1,8 +1,10 @@
 package com.mredrock.cyxbs.freshman.Bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MessageBean {
+public class MessageBean implements Serializable {
     /**
      * code : 200
      * message : 成功!
@@ -37,7 +39,14 @@ public class MessageBean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public void addResult(ResultBean resultBean) {
+        if (result == null) {
+            result = new ArrayList<>();
+        }
+        result.add(resultBean);
+    }
+
+    public static class ResultBean implements Serializable {
         /**
          * author : Taylor Swift
          * link : http://music.163.com/#/song?id=1382778973
@@ -48,6 +57,15 @@ public class MessageBean {
          * songid : 1382778973
          * url : http://music.163.com/song/media/outer/url?id=1382778973.mp3
          */
+        public ResultBean(String author, String pic, String url, String title) {
+            this.author = author;
+            this.pic = pic;
+            this.url = url;
+            this.title = title;
+        }
+
+        public ResultBean() {
+        }
 
         private String author;
         private String link;

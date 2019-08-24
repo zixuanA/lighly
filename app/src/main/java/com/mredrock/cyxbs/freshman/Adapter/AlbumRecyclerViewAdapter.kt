@@ -2,8 +2,6 @@ package com.mredrock.cyxbs.freshman.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +14,14 @@ import com.mredrock.cyxbs.freshman.Util.getAlbumColor
 import com.mredrock.cyxbs.freshman.Util.getAlbumIconRes
 import com.mredrock.cyxbs.freshman.View.ShadowLayout
 import kotlinx.android.synthetic.main.recycler_item_album.view.*
-import kotlinx.android.synthetic.main.recycler_item_favourite_item.view.*
-import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.imageResource
 
-class AlbumRecyclerViewAdapter(private var favouriteBean: FavouriteBean,private val clickListener: OnAlbumClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AlbumRecyclerViewAdapter(private val clickListener: OnAlbumClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var context: Context? = null
+    private var favouriteBean: FavouriteBean? = null
     private var isFirstLoad = true
+    private var didBind = false
+    fun getFavouriteBean() = favouriteBean
     @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflate = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item_album, parent, false)
@@ -30,24 +29,31 @@ class AlbumRecyclerViewAdapter(private var favouriteBean: FavouriteBean,private 
         return AlbumViewHolder(inflate)
     }
 
-    fun setBean(favouriteBean: FavouriteBean){
-        this.favouriteBean = favouriteBean
-        notifyDataSetChanged()
+    fun setBean(favouriteBean: FavouriteBean) {
+        LogUtils.d("MyTag", "album bean size =$itemCount")
+
+        if (this.favouriteBean?.albumList == null || itemCount == 0 || !this.didBind) {
+            this.favouriteBean = favouriteBean
+            LogUtils.d("MyTag", "${favouriteBean.albumList}")
+            notifyDataSetChanged()
+        }
     }
+
     override fun getItemCount(): Int {
-        return if(favouriteBean.albumList != null)
-            favouriteBean.albumList.size + 1
+        return if (favouriteBean?.albumList != null)
+            favouriteBean?.albumList?.size!! + 1
         else
             0
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
+//        holder.setIsRecyclable(false)
+        didBind = true
         if (position != itemCount - 1) {
             holder.itemView.visibility = View.VISIBLE
-            holder.itemView.tv_album_name.text = favouriteBean.albumList[position].albumName
+            holder.itemView.tv_album_name.text = favouriteBean?.albumList?.get(position)?.albumName
             holder.itemView.img_album_icon.imageResource = getAlbumIconRes(position)
-
+            (holder.itemView as ShadowLayout).setmBackGroundColor(getAlbumColor(position))
             val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
             params.height = dp2px(context!!, 180)
             params.topMargin = dp2px(context!!, 45)
@@ -72,8 +78,8 @@ class AlbumRecyclerViewAdapter(private var favouriteBean: FavouriteBean,private 
             holder.itemView.setOnClickListener {
                 val intArray = IntArray(2)
                 it.getLocationInWindow(intArray)
-                val view = holder.itemView as ShadowLayout
-
+                val view = it as ShadowLayout
+                LogUtils.d("MyTag", "click background color=${view.backGroundColor}")
                 clickListener.onItemClick(position, intArray[0], intArray[1], view.backGroundColor)
 
             }

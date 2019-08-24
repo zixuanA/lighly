@@ -2,18 +2,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="center_vertical"
-    android:background="@drawable/alpha_circle"
-    android:layout_marginStart="25dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="25dp"
+    android:background="@drawable/alpha_circle"
     tools:ignore="ResourceName">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
 
-            android:src="@drawable/ic_arrow_left"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_arrow_left" />
 
 </FrameLayout>

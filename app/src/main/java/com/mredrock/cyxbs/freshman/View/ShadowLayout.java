@@ -16,19 +16,11 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.Switch;
-
 
 import androidx.annotation.ColorInt;
 
-import com.mredrock.cyxbs.common.utils.LogUtils;
 import com.mredrock.cyxbs.freshman.R;
-import com.mredrock.cyxbs.freshman.Util.ColorUtil;
-import com.mredrock.cyxbs.freshman.Util.ColorUtilKt;
-
-import java.util.Random;
 
 
 public class ShadowLayout extends FrameLayout {
@@ -152,6 +144,7 @@ public class ShadowLayout extends FrameLayout {
     }
 
     private static int index = 0;
+
     private void initView(Context context, AttributeSet attrs) {
         initAttributes(attrs);
         shadowPaint = new Paint();
@@ -164,40 +157,46 @@ public class ShadowLayout extends FrameLayout {
         paint.setStyle(Paint.Style.FILL);
 //        paint.setColor(mBackGroundColor);
 //        paint.setColor(ColorUtilKt.getAlbumColor());
-        int a = (int)(10*Math.random());
-        switch (a%5){
-            case 0:
-                paint.setColor(Color.rgb(00,70,130));
-                mBackGroundColor = Color.rgb(00,70,130);
-                break;
-            case 1:
-                paint.setColor(Color.rgb(03,112,183));
-                mBackGroundColor =Color.rgb(03,112,183);
-                break;
-            case 2:
-                paint.setColor(Color.rgb(2,149,206));
-                mBackGroundColor = Color.rgb(2,149,206);
-                break;
-            case 3:
-                paint.setColor(Color.rgb(07,177,191));
-                mBackGroundColor = Color.rgb(07,177,191);
-                break;
-            case 4:
-                paint.setColor(Color.rgb(96,244,160));
-                mBackGroundColor = Color.rgb(96,244,160);
-                break;
-
-        }
-        index++;
+//        int a = (int)(10*Math.random());
+//        switch (a%5){
+//            case 0:
+//                paint.setColor(Color.rgb(00,70,130));
+//                mBackGroundColor = Color.rgb(00,70,130);
+//                break;
+//            case 1:
+//                paint.setColor(Color.rgb(03,112,183));
+//                mBackGroundColor =Color.rgb(03,112,183);
+//                break;
+//            case 2:
+//                paint.setColor(Color.rgb(2,149,206));
+//                mBackGroundColor = Color.rgb(2,149,206);
+//                break;
+//            case 3:
+//                paint.setColor(Color.rgb(07,177,191));
+//                mBackGroundColor = Color.rgb(07,177,191);
+//                break;
+//            case 4:
+//                paint.setColor(Color.rgb(96,244,160));
+//                mBackGroundColor = Color.rgb(96,244,160);
+//                break;
+//
+//        }
+//        paint.setColor(ColorUtilKt.getAlbumColor());
+//        mBackGroundColor = ColorUtilKt.getAlbumColor();
+//        index++;
         setPading();
     }
-    public void setmBackGroundColor(@ColorInt int color){
+
+    public void setmBackGroundColor(@ColorInt int color) {
         paint.setColor(color);
+        mBackGroundColor = color;
     }
+
     @ColorInt
-    public int getBackGroundColor(){
+    public int getBackGroundColor() {
         return mBackGroundColor;
     }
+
     public void setPading() {
         int xPadding = (int) (mShadowLimit + Math.abs(mDx));
         int yPadding = (int) (mShadowLimit + Math.abs(mDy));
@@ -298,7 +297,6 @@ public class ShadowLayout extends FrameLayout {
             shadowRect.left += Math.abs(dx);
             shadowRect.right -= Math.abs(dx);
         }
-
 
 
         shadowPaint.setColor(fillColor);

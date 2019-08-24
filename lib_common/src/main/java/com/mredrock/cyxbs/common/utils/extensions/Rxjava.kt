@@ -34,7 +34,7 @@ fun Observable<RedrockApiStatus>.checkError(): Observable<RedrockApiStatus> = ma
     if (it.isSuccessful) {
         it
     } else {
-        throw RedrockApiException(it.info, it.status)
+        throw RedrockApiException(it.info)
     }
 }
 
@@ -42,7 +42,7 @@ fun <T> RedrockApiWrapper<T>.nextOrError() =
         if (isSuccessful) {
             data ?: throw RedrockApiIllegalStateException()
         } else {
-            throw RedrockApiException(info, status, null)
+            throw RedrockApiException(info, null)
         }
 
 /**
@@ -52,7 +52,7 @@ fun <T> RedrockApiWrapper<T>.nextOrError() =
 inline fun <T> Observable<T>.doOnErrorWithDefaultErrorHandler(defaultErrorHandler: ErrorHandler? = DefaultErrorHandler,
                                                               crossinline onError: (Throwable) -> Boolean): Observable<T> = doOnError { if (!onError.invoke(it)) defaultErrorHandler?.handle(it) }
 
-fun <T> Observable<T>.errorHandler(errorHandler: ErrorHandler = DefaultErrorHandler) = doOnError { errorHandler.handle(it) }
+fun <T> Observable<T>.errorHandler(errorHandler: ErrorHandler = DefaultErrorHandler): Observable<T> = doOnError { errorHandler.handle(it) }
 
 /**
  * 未实现onError时不会抛出[io.reactivex.exceptions.OnErrorNotImplementedException]异常

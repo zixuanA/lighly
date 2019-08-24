@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.common
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.multidex.MultiDexApplication
-import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mredrock.cyxbs.common.bean.User
 import com.mredrock.cyxbs.common.config.SP_KEY_USER
@@ -12,9 +11,6 @@ import com.mredrock.cyxbs.common.utils.LogUtils
 import com.mredrock.cyxbs.common.utils.encrypt.UserInfoEncryption
 import com.mredrock.cyxbs.common.utils.extensions.defaultSharedPreferences
 import com.mredrock.cyxbs.common.utils.extensions.editor
-import com.umeng.analytics.MobclickAgent
-import com.umeng.commonsdk.UMConfigure
-import com.umeng.socialize.PlatformConfig
 
 /**
  * Created By jay68 on 2018/8/7.
@@ -25,7 +21,7 @@ open class BaseApp : MultiDexApplication() {
         lateinit var context: Context
             private set
 
-        var user: User? = null
+        private var user: User? = null
             set(value) {
                 field = value
                 val encryptedJson = userInfoEncryption.encrypt(value?.toJson())

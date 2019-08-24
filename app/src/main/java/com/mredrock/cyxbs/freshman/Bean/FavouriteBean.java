@@ -1,8 +1,9 @@
 package com.mredrock.cyxbs.freshman.Bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FavouriteBean {
+public class FavouriteBean implements Serializable {
     private List<FavouriteItemBean> list;
     private List<AlbumBean> albumList;
 
@@ -22,7 +23,7 @@ public class FavouriteBean {
         this.list = list;
     }
 
-    public static class FavouriteItemBean{
+    public static class FavouriteItemBean implements Serializable {
         public String getUrl() {
             return url;
         }
@@ -59,14 +60,17 @@ public class FavouriteBean {
         public void setSongList(List<MessageBean.ResultBean> songList) {
             this.songList = songList;
         }
-        public void addSong(MessageBean.ResultBean song){
+
+        public void addSong(MessageBean.ResultBean song) {
             this.songList.add(song);
         }
-        public void removeSong(int index){
+
+        public void removeSong(int index) {
             this.songList.remove(index);
         }
     }
-    public static class AlbumBean{
+
+    public static class AlbumBean implements Serializable {
         private String albumName;
 
         public String getAlbumName() {

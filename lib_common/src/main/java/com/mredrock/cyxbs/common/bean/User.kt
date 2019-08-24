@@ -110,5 +110,5 @@ data class User(@SerializedName("college")
         }
     }
 
-    fun toJson() = Gson().toJson(this)
+    fun toJson(): String = Gson().toJson(this)
 }

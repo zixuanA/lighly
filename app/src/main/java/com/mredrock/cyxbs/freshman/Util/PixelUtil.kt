@@ -6,12 +6,12 @@ import android.util.TypedValue
 
 fun dp2px(context: Context, dpVal: Int): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-            dpVal.toFloat(), context.getResources().getDisplayMetrics()).toInt()
-}
-fun dp2px(context: Context, dpVal: Float): Float {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-            dpVal, context.getResources().getDisplayMetrics())
+            dpVal.toFloat(), context.resources.displayMetrics).toInt()
 }
 
-class PixelUtil {
+fun dp2px(context: Context, dpVal: Float): Float {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+            dpVal, context.resources.displayMetrics)
 }
+
+class PixelUtil

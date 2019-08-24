@@ -7,12 +7,16 @@ interface SbuscribeMusicEventAble {
 
     @Subscribe
     fun onMusicPauseEvent(event: MusicPauseEvent)
+
     @Subscribe
     fun onMusicReplayEvent(event: MusicReplayEvent)
+
     @Subscribe
     fun onMusicChangedEvent(event: MusicChangeEvent)
+
     @Subscribe
     fun onMusicProgressAddingEvent(event: MusicProgressAddingEvent)
+
     @Subscribe
-    fun onMusicStartEvent(event:MusicStartEvent)
+    fun onMusicStartEvent(event: MusicStartEvent)
 }

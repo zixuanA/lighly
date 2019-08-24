@@ -265,10 +265,10 @@ public class InsecureSHA1PRNGKeyDerivator {
             // seed or copies array depending on total length after padding
             if (seed[BYTES_OFFSET] < MAX_BYTES) {
                 seed[14] = (int) (bits >>> 32);
-                seed[15] = (int) (bits & 0xFFFFFFFF);
+                seed[15] = (int) (bits);
             } else {
                 copies[EXTRAFRAME_OFFSET + 14] = (int) (bits >>> 32);
-                copies[EXTRAFRAME_OFFSET + 15] = (int) (bits & 0xFFFFFFFF);
+                copies[EXTRAFRAME_OFFSET + 15] = (int) (bits);
             }
             nextBIndex = HASHBYTES_TO_USE; // skipping remaining random bits
         }
@@ -293,11 +293,11 @@ public class InsecureSHA1PRNGKeyDerivator {
         for (;;) {
             if (n == 0) {
                 seed[lastWord] = (int) (counter >>> 32);
-                seed[lastWord + 1] = (int) (counter & 0xFFFFFFFF);
+                seed[lastWord + 1] = (int) (counter);
                 seed[lastWord + 2] = END_FLAGS[0];
             } else {
                 seed[lastWord] |= (int) ((counter >>> RIGHT1[n]) & MASK[n]);
-                seed[lastWord + 1] = (int) ((counter >>> RIGHT2[n]) & 0xFFFFFFFF);
+                seed[lastWord + 1] = (int) ((counter >>> RIGHT2[n]));
                 seed[lastWord + 2] = (int) ((counter << LEFT[n]) | END_FLAGS[n]);
             }
             if (seed[BYTES_OFFSET] > MAX_BYTES) {

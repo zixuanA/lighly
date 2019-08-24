@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/fl_song_list"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_song_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activity.SongListActivity"
     tools:ignore="ResourceName">
 
@@ -15,33 +14,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
+
+        <FrameLayout
             android:id="@+id/ll_song_list_tool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="50dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-         <include layout="@layout/item_back"
-             android:id="@+id/fl_back_song_list"/>
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/fl_back_song_list"
+                layout="@layout/item_back" />
 
             <FrameLayout
                 android:id="@+id/fl_search_song_list"
-                android:layout_marginStart="80dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/alpha_left_circle">
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginStart="80dp"
+                android:background="@drawable/alpha_left_circle"
+                android:transitionName="fl_search">
+
                 <ImageView
-                    android:layout_marginTop="22dp"
-                    android:layout_marginBottom="22dp"
-                    android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_search"/>
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="22dp"
+                    android:src="@drawable/ic_search" />
             </FrameLayout>
 
-        </LinearLayout>
+        </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_song_list_detail"
@@ -52,8 +57,8 @@
 
             <ImageView
                 android:id="@+id/img_song_list_album_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
@@ -81,14 +86,16 @@
 
         <LinearLayout
             android:id="@+id/ll_song_list_recycler"
-            android:background="@drawable/left_corner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/left_corner"
+            android:transitionName="ll_recycler">
+
             <androidx.recyclerview.widget.RecyclerView
-                android:overScrollMode="never"
                 android:id="@+id/rv_song_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
         </LinearLayout>
     </LinearLayout>
 
@@ -115,10 +122,10 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="15dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/fl_tab_state"
@@ -130,6 +137,7 @@
                 android:id="@+id/tv_music_playing_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:textColor="#fff"
                 android:textStyle="bold" />
 
@@ -137,6 +145,7 @@
                 android:id="@+id/tv_music_playing_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:textColor="#fff" />
         </LinearLayout>
 

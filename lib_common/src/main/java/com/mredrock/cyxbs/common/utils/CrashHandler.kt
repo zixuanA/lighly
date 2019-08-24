@@ -8,6 +8,7 @@ import com.mredrock.cyxbs.common.BuildConfig
 import com.mredrock.cyxbs.common.ui.ExceptionActivity
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlin.system.exitProcess
 
 @SuppressLint("StaticFieldLeak")
 object CrashHandler : Thread.UncaughtExceptionHandler {
@@ -15,8 +16,8 @@ object CrashHandler : Thread.UncaughtExceptionHandler {
     private lateinit var context: Context
     private val deviceInfoMap = HashMap<String, String>()
 
-    var stackInfo: String? = null
-    val deviceInfo: String
+    private var stackInfo: String? = null
+    private val deviceInfo: String
         get() {
             val sb = StringBuilder()
             for ((key, value) in deviceInfoMap) {
@@ -39,7 +40,7 @@ object CrashHandler : Thread.UncaughtExceptionHandler {
         Thread.setDefaultUncaughtExceptionHandler(defaultHandler)
         handleException(p0?.name ?: "", p1)
         defaultHandler?.uncaughtException(p0, p1)
-        System.exit(0)
+        exitProcess(0)
     }
 
     private fun handleException(threadName: String, throwable: Throwable?) {

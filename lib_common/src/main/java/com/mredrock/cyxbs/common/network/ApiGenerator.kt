@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.common.network
 
 import com.mredrock.cyxbs.common.BuildConfig
-import com.mredrock.cyxbs.common.config.END_POINT_REDROCK
 import com.mredrock.cyxbs.common.network.converter.QualifiedTypeConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,7 +40,7 @@ object ApiGenerator {
         return builder.build()
     }
 
-    fun <T> getApiService(clazz: Class<T>) = retrofit.create(clazz)
+    fun <T> getApiService(clazz: Class<T>) = retrofit.create(clazz)!!
 
-    fun <T> getApiService(retrofit: Retrofit, clazz: Class<T>) = retrofit.create(clazz)
+    fun <T> getApiService(retrofit: Retrofit, clazz: Class<T>) = retrofit.create(clazz)!!
 }

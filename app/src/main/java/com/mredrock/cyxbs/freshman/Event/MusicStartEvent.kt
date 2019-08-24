@@ -1,5 +1,5 @@
 package com.mredrock.cyxbs.freshman.Event
-private val musicStartEvent = com.mredrock.cyxbs.freshman.Event.MusicStartEvent()
-fun getMusicStartEvent():MusicStartEvent= musicStartEvent
-class MusicStartEvent {
-}
+
+private val musicStartEvent = MusicStartEvent()
+fun getMusicStartEvent(): MusicStartEvent = musicStartEvent
+class MusicStartEvent

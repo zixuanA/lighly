@@ -19,14 +19,14 @@ class WidgetCourse: Serializable {
      * nowWeek : 5
      */
 
-    var status: Int = 0
-    var isSuccess: Boolean = false
+    private var status: Int = 0
+    private var isSuccess: Boolean = false
     var version: String? = null
-    var term: String? = null
-    var stuNum: String? = null
-    var cachedTimestamp: Long = 0
-    var outOfDateTimestamp: Long = 0
-    var nowWeek: Int = 0
+    private var term: String? = null
+    private var stuNum: String? = null
+    private var cachedTimestamp: Long = 0
+    private var outOfDateTimestamp: Long = 0
+    private var nowWeek: Int = 0
     var data: List<DataBean>? = null
 
     override fun toString(): String {
@@ -63,22 +63,22 @@ class WidgetCourse: Serializable {
          * period : 2
          */
 
-        var hash_day: Int = 0
-        var hash_lesson: Int = 0
-        var begin_lesson: Int = 0
-        var day: String? = null
-        var lesson: String? = null
-        var course: String? = null
-        var course_num: String? = null
+        private var hash_day: Int = 0
+        private var hash_lesson: Int = 0
+        private var begin_lesson: Int = 0
+        private var day: String? = null
+        private var lesson: String? = null
+        private var course: String? = null
+        private var course_num: String? = null
         var teacher: String? = null
-        var classroom: String? = null
-        var rawWeek: String? = null
-        var weekModel: String? = null
-        var weekBegin: Int = 0
-        var weekEnd: Int = 0
-        var type: String? = null
-        var period: Int = 0
-        var week: List<Int>? = null
+        private var classroom: String? = null
+        private var rawWeek: String? = null
+        private var weekModel: String? = null
+        private var weekBegin: Int = 0
+        private var weekEnd: Int = 0
+        private var type: String? = null
+        private var period: Int = 0
+        private var week: List<Int>? = null
 
         override fun toString(): String {
             return "DataBean{" +

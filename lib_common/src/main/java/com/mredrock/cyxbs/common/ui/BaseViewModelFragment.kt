@@ -19,7 +19,7 @@ import org.jetbrains.anko.support.v4.toast
  * Created By jay68 on 2018/8/23.
  */
 abstract class BaseViewModelFragment<T : BaseViewModel> : BaseFragment() {
-    protected lateinit var viewModel: T
+    private lateinit var viewModel: T
 
     protected abstract val viewModelClass: Class<T>
 
@@ -55,7 +55,7 @@ abstract class BaseViewModelFragment<T : BaseViewModel> : BaseFragment() {
 
     protected open fun getViewModelFactory(): ViewModelProvider.Factory? = null
 
-    inline fun <T> LiveData<T>.observe(crossinline onChange: (T?) -> Unit) = observe(this@BaseViewModelFragment, Observer { onChange(value) })
+    private inline fun <T> LiveData<T>.observe(crossinline onChange: (T?) -> Unit) = observe(this@BaseViewModelFragment, Observer { onChange(value) })
 
 
     override fun onDestroyView() {
