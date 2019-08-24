@@ -1,5 +1,7 @@
 # lighly
 一个轻巧的音乐软件
+![image](https://github.com/zixuanA/lighly/blob/master/Screenshot_1566653940.png)
+![image](https://github.com/zixuanA/lighly/blob/master/Screenshot_1566654040.png)
 
 ## 基于MVVM框架开发
   不同模块解耦
