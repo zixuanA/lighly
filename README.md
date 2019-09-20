@@ -1,5 +1,6 @@
 # lighly
 一个轻巧的音乐软件
+# 接口没了—_—
 ![image](https://github.com/zixuanA/lighly/blob/master/Screenshot_1566653940.png)
 ![image](https://github.com/zixuanA/lighly/blob/master/Screenshot_1566654040.png)
 [演示视频](https://github.com/zixuanA/lighly/blob/master/%E5%B1%8F%E5%B9%95%E5%BD%95%E5%88%B6%202019-08-24%20%E4%B8%8B%E5%8D%8811.50.04.mov)
